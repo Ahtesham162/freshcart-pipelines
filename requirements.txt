@@ -4,3 +4,6 @@ scikit-learn
 pandas
 numpy
 pika
+snowflake-connector-python
+python-dotenv
+requests
