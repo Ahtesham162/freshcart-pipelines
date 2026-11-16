@@ -7,3 +7,4 @@ pika
 snowflake-connector-python
 python-dotenv
 requests
+python-dotenv

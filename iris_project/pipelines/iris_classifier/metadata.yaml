@@ -1,9 +1,11 @@
+
 blocks:
 - all_upstream_blocks_executed: true
   color: null
   configuration: {}
   downstream_blocks:
   - prepare_data
+  - validate_data
   executor_config: null
   executor_type: local_python
   has_callback: false
@@ -15,6 +17,7 @@ blocks:
   type: data_loader
   upstream_blocks: []
   uuid: load_iris
+
 - all_upstream_blocks_executed: true
   color: null
   configuration: {}
@@ -32,13 +35,16 @@ blocks:
   upstream_blocks:
   - load_iris
   uuid: prepare_data
+
 - all_upstream_blocks_executed: true
   color: null
   configuration: {}
   downstream_blocks:
   - save_results
+  - evaluate_model
   executor_config: null
   executor_type: local_python
+  has_callback: false
   has_callback: false
   language: python
   name: train_model
@@ -49,6 +55,7 @@ blocks:
   upstream_blocks:
   - prepare_data
   uuid: train_model
+
 - all_upstream_blocks_executed: false
   color: null
   configuration: {}
@@ -65,6 +72,59 @@ blocks:
   upstream_blocks:
   - train_model
   uuid: save_results
+
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - export_metrics
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: evaluate_model
+  retry_config: null
+  status: not_executed
+  timeout: null
+  type: transformer
+  upstream_blocks:
+  - train_model
+  uuid: evaluate_model
+
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: validate_data
+  retry_config: null
+  status: not_executed
+  timeout: null
+  type: transformer
+  upstream_blocks:
+  - load_iris
+  uuid: validate_data
+
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: export_metrics
+  retry_config: null
+  status: not_executed
+  timeout: null
+  type: data_exporter
+  upstream_blocks:
+  - evaluate_model
+  uuid: export_metrics
+
 cache_block_output_in_memory: false
 callbacks: []
 concurrency_config: {}
